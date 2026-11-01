@@ -8,7 +8,7 @@
 extern "C" {
 #endif
 
-/* The thresholds of the Swift rules, kept here so a consumer can name them. */
+/* The thresholds of the matching rules, kept here so a consumer can name them. */
 constexpr double RMM_PAST_THE_MIDDLE = 0.05;
 constexpr double RMM_WHOLE_LINE = 0.85;
 constexpr double RMM_LEAST_WIDTH = 0.5;
@@ -27,7 +27,7 @@ constexpr double RMM_WITHIN_A_LINE = 0.75;
  * the entire line's middle; words are joined in input order with spaces.
  * Identical selected page-piece identities are deduplicated, with later
  * bands recorded in again. Cut-only results are not deduplicated.
- * Out-of-range alone keys are ignored, as in the Swift dictionary API. */
+ * Out-of-range alone keys select no band and are ignored. */
 [[nodiscard]] RMM_API rmm_status rmm_text_passages(const rmm_page_box *bands, size_t band_count,
                                                    const rmm_line *lines, size_t line_count,
                                                    const rmm_band_reading *alone,
@@ -39,7 +39,7 @@ constexpr double RMM_WITHIN_A_LINE = 0.75;
 RMM_API void rmm_passages_free(rmm_passages *result);
 
 /* Gather adjoining passages, repeatedly merging every reached block.
- * Ties in y0 preserve input order, matching Swift's stable sort. */
+ * Ties in y0 preserve input order: the sort is stable. */
 [[nodiscard]] RMM_API rmm_status rmm_text_blocks(const rmm_marked_passage *passages, size_t count,
                                                  rmm_blocks **out, rmm_error *out_error);
 RMM_API void rmm_blocks_free(rmm_blocks *result);

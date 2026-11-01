@@ -7,7 +7,7 @@
 #include "rmmarks/types.h"
 #define RMMARKS_VERSION_MAJOR 1
 #define RMMARKS_VERSION_MINOR 0
-#define RMMARKS_VERSION_PATCH 0
+#define RMMARKS_VERSION_PATCH 1
 #define RMMARKS_STRINGIFY_(x) #x
 #define RMMARKS_STRINGIFY(x) RMMARKS_STRINGIFY_(x)
 #define RMMARKS_VERSION_STRING                                                                     \

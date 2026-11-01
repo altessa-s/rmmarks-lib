@@ -4,7 +4,7 @@
 #include "rmm_internal.h"
 #include "rmm_unicode_data.h"
 
-/* Invalid UTF-8 is refused at the boundary: Swift String cannot contain it.
+/* Invalid UTF-8 is refused at the boundary rather than repaired in silence.
  * The caller decides whether OCR bytes should be repaired before this API. */
 size_t rmm_utf8_next(rmm_str s, size_t at, uint32_t *cp) {
     if (at >= s.length)
