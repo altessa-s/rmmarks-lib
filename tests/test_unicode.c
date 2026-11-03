@@ -17,6 +17,7 @@ static void trimmed(const char* input, const char* expected) {
     CHECK(r->count == 0);
   rmm_passages_free(r);
 }
+
 static void equal_readings(const char* a, const char* b, bool equal) {
   rmm_page_box band = B(0, 1, 0, 1);
   rmm_placed_text p = {{a, strlen(a)}, band}, q = {{b, strlen(b)}, band};
@@ -27,6 +28,7 @@ static void equal_readings(const char* a, const char* b, bool equal) {
   if (r->count) CHECK((r->items[0].second.bytes == nullptr) == equal);
   rmm_passages_free(r);
 }
+
 int main(void) {
   trimmed("\t\r\n слово \t", "слово");
   trimmed("\u00A0\u1680\u2003слово\u202F\u205F\u3000", "слово");

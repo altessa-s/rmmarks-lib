@@ -3,6 +3,7 @@
  * found in the LICENSE file. */
 
 #include "marks_test.h"
+
 int main(void) {
   rmm_page_box frame = B(.25, .75, .25, .75), cut = B(0, .5, 0, 1),
                page = B(.25, .5, .25, .75);

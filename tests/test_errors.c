@@ -84,6 +84,7 @@ static void allocation_failures(void) {
   CHECK(complete);
   rmm_test_fail_after(SIZE_MAX);
 }
+
 int main(void) {
   rmm_passages sentinel = {0}, *out = &sentinel;
   CHECK(rmm_text_passages(nullptr, 1, nullptr, 0, nullptr, 0, &out, nullptr) ==

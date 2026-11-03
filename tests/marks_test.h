@@ -20,6 +20,7 @@
   return fabs(a.x0 - b.x0) < 1e-12 && fabs(a.y0 - b.y0) < 1e-12 &&
          fabs(a.x1 - b.x1) < 1e-12 && fabs(a.y1 - b.y1) < 1e-12;
 }
+
 [[maybe_unused]] static rmm_passages* find(const rmm_page_box* bands, size_t n,
                                            const rmm_line* lines, size_t m,
                                            const rmm_band_reading* alone,

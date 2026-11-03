@@ -49,6 +49,7 @@ static void handwritten_notes(void) {
   CHECK(!r->count);
   rmm_passages_free(r);
 }
+
 static void word_and_line(void) {
   rmm_placed_text words[] = {
       W("Здесь", .152, .176, .259, .298), W("отмечено", .181, .287, .259, .298),
@@ -71,6 +72,7 @@ static void word_and_line(void) {
     TEXT(r->items[0].text, "Здесь отмечено одно последнее слово.");
   rmm_passages_free(r);
 }
+
 static void columns_and_split_lines(void) {
   rmm_placed_text left =
       W("OPŠTE ODREDBE UGOVORA O SARADNJI", .090, .472, .446, .465);
@@ -101,6 +103,7 @@ static void columns_and_split_lines(void) {
   }
   rmm_passages_free(r);
 }
+
 static void second_reading(void) {
   rmm_page_box band = B(.1, .9, .29, .33);
   rmm_placed_text main =
@@ -146,6 +149,7 @@ static void second_reading(void) {
   CHECK(r->count == 2);
   rmm_passages_free(r);
 }
+
 static void thresholds_and_ownership(void) {
   char source[] = "word";
   rmm_placed_text words[] = {{{source, 4}, B(0, 1, 0, 1)},
@@ -183,6 +187,7 @@ static void thresholds_and_ownership(void) {
   CHECK(!r->count);
   rmm_passages_free(r);
 }
+
 int main(void) {
   handwritten_notes();
   word_and_line();

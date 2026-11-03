@@ -1,6 +1,7 @@
 /* Copyright 2026 ALTESSA SOLUTIONS INC.
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file. */
+
 #include "rmm_internal.h"
 #include "rmm_unicode_data.h"
 
@@ -38,6 +39,7 @@ size_t rmm_utf8_next(rmm_str s, size_t at, uint32_t* cp) {
   *cp = value;
   return at + n;
 }
+
 bool rmm_utf8_valid(rmm_str s) {
   if (s.length && !s.bytes) return false;
   for (size_t at = 0; at < s.length;) {
@@ -47,6 +49,7 @@ bool rmm_utf8_valid(rmm_str s) {
   }
   return true;
 }
+
 /* Value of the range in table (sorted, n entries) that contains cp, or 0
  * if cp falls in no range. */
 static uint8_t property(uint32_t cp, const rmm_unicode_range* table, size_t n) {
@@ -62,6 +65,7 @@ static uint8_t property(uint32_t cp, const rmm_unicode_range* table, size_t n) {
   }
   return 0;
 }
+
 /* True if cp is a Unicode space, line or paragraph separator treated as
  * whitespace for trimming. */
 static bool whitespace(uint32_t cp) {
@@ -69,6 +73,7 @@ static bool whitespace(uint32_t cp) {
          cp == 0x1680 || (cp >= 0x2000 && cp <= 0x200A) || cp == 0x2028 ||
          cp == 0x2029 || cp == 0x202F || cp == 0x205F || cp == 0x3000;
 }
+
 rmm_str rmm_trim(rmm_str s) {
   size_t start = s.length, end = 0;
   bool blank = false, have_cluster = false;
@@ -101,6 +106,7 @@ typedef struct {
   uint8_t ccc;
   size_t order;
 } scalar;
+
 /* qsort comparator for canonical ordering: by combining class, with ties
  * broken by original order to keep the sort stable. */
 static int by_combining(const void* a, const void* b) {
@@ -108,6 +114,7 @@ static int by_combining(const void* a, const void* b) {
   if (x->ccc != y->ccc) return (x->ccc > y->ccc) - (x->ccc < y->ccc);
   return (x->order > y->order) - (x->order < y->order);
 }
+
 /* The canonical decomposition entry for cp, or nullptr if cp has none. */
 static const rmm_decomposition* decomposition(uint32_t cp) {
   size_t lo = 0, hi = rmm_decompositions_count;
@@ -122,6 +129,7 @@ static const rmm_decomposition* decomposition(uint32_t cp) {
   }
   return nullptr;
 }
+
 /* Expands s into its canonical (NFD) decomposition, in canonical order,
  * computing Hangul syllable decompositions rather than looking them up.
  * Writes the scalar array to *out and its length to *count. */
@@ -173,6 +181,7 @@ static rmm_status nfd(rmm_arena* arena, rmm_str s, scalar** out,
   *count = used;
   return RMM_OK;
 }
+
 rmm_status rmm_text_equal(rmm_arena* arena, rmm_str a, rmm_str b, bool* equal) {
   if (a.length == b.length &&
       (!a.length || memcmp(a.bytes, b.bytes, a.length) == 0)) {

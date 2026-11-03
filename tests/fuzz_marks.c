@@ -7,6 +7,7 @@
 #include "rmmarks/rmmarks.h"
 
 int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size);
+
 int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
   if (size < 4) return 0;
   rmm_page_box bands[16];

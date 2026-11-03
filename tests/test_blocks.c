@@ -3,6 +3,7 @@
  * found in the LICENSE file. */
 
 #include "marks_test.h"
+
 static rmm_blocks* blocks(const rmm_page_box* boxes, size_t n) {
   rmm_marked_passage p[16];
   CHECK(n <= N(p));
@@ -13,6 +14,7 @@ static rmm_blocks* blocks(const rmm_page_box* boxes, size_t n) {
   if (!r) exit(1);
   return r;
 }
+
 int main(void) {
   rmm_page_box heading[] = {B(.536, .873, .448, .465),
                             B(.541, .871, .467, .483)};

@@ -4,6 +4,7 @@
 
 #include <rmmarks/rmmarks.h>
 #include <string.h>
+
 int main(void) {
   rmm_page_box band = {0, 0, 1, 1};
   rmm_placed_text word = {RMM_STR("portable"), band};

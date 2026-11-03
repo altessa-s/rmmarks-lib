@@ -1,11 +1,13 @@
 /* Copyright 2026 ALTESSA SOLUTIONS INC.
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file. */
+
 #include <stdint.h>
 
 #include "rmm_test.h"
 
 int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size);
+
 int main(void) {
   uint64_t state = UINT64_C(0x524d4d41524b53);
   uint8_t data[1024];

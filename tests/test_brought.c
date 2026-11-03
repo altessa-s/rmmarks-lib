@@ -3,6 +3,7 @@
  * found in the LICENSE file. */
 
 #include "marks_test.h"
+
 static rmm_readings* bring(const rmm_line* lines, size_t n,
                            const rmm_mark_strip* strips, size_t s,
                            const size_t* numbers, size_t m) {
@@ -12,6 +13,7 @@ static rmm_readings* bring(const rmm_line* lines, size_t n,
   if (!r) exit(1);
   return r;
 }
+
 int main(void) {
   rmm_mark_strip strips[] = {{B(.1, .9, .1, .2), B(0, 1, 0, .4)},
                              {B(.1, .9, .5, .6), B(0, 1, .6, 1)}};
