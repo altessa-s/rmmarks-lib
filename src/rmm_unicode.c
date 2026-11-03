@@ -73,8 +73,7 @@ rmm_str rmm_trim(rmm_str s) {
     uint32_t cp;
     size_t next = rmm_utf8_next(s, at, &cp);
     if (!next) return s; /* Validated by the public entry point. */
-    uint8_t kind =
-        property(cp, rmm_grapheme, sizeof rmm_grapheme / sizeof *rmm_grapheme);
+    uint8_t kind = property(cp, rmm_grapheme, rmm_grapheme_count);
     /* Only boundaries adjacent to whitespace matter here. Controls
      * break even before an Extend; a Prepend owns the following scalar.
      * A space followed by an accent/ZWJ is one whitespace Character. */
@@ -104,7 +103,7 @@ static int by_combining(const void* a, const void* b) {
   return (x->order > y->order) - (x->order < y->order);
 }
 static const rmm_decomposition* decomposition(uint32_t cp) {
-  size_t lo = 0, hi = sizeof rmm_decompositions / sizeof *rmm_decompositions;
+  size_t lo = 0, hi = rmm_decompositions_count;
   while (lo < hi) {
     size_t mid = lo + (hi - lo) / 2;
     if (rmm_decompositions[mid].scalar < cp)
@@ -142,11 +141,9 @@ static rmm_status nfd(rmm_arena* arena, rmm_str s, scalar** out,
       }
     }
     for (size_t i = 0; i < n; i += 1) {
-      values[used] =
-          (scalar){parts[i],
-                   property(parts[i], rmm_combining,
-                            sizeof rmm_combining / sizeof *rmm_combining),
-                   used};
+      values[used] = (scalar){
+          parts[i], property(parts[i], rmm_combining, rmm_combining_count),
+          used};
       used += 1;
     }
   }

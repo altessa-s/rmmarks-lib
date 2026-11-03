@@ -42,7 +42,7 @@ endif()
 # The library
 # ---------------------------------------------------------------------------
 
-set(RMMARKS_SOURCES src/rmm_support.c src/rmm_model.c src/rmm_unicode.c src/rmm_text.c)
+set(RMMARKS_SOURCES src/rmm_support.c src/rmm_model.c src/rmm_unicode.c src/rmm_unicode_data.c src/rmm_text.c)
 set(RMMARKS_PUBLIC_HEADERS include/rmmarks/rmmarks.h include/rmmarks/export.h
     include/rmmarks/types.h include/rmmarks/text.h)
 
