@@ -8,7 +8,9 @@
 #define RMMARKS_VERSION_MAJOR 1
 #define RMMARKS_VERSION_MINOR 0
 #define RMMARKS_VERSION_PATCH 1
+/* Turns x into a string literal without macro-expanding it first. */
 #define RMMARKS_STRINGIFY_(x) #x
+/* Macro-expands x, then turns the result into a string literal. */
 #define RMMARKS_STRINGIFY(x) RMMARKS_STRINGIFY_(x)
 #define RMMARKS_VERSION_STRING                                        \
   RMMARKS_STRINGIFY(RMMARKS_VERSION_MAJOR)                            \

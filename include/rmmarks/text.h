@@ -33,10 +33,14 @@ constexpr double RMM_WITHIN_A_LINE = 0.75;
     const rmm_page_box* bands, size_t band_count, const rmm_line* lines,
     size_t line_count, const rmm_band_reading* alone, size_t alone_count,
     rmm_passages** out, rmm_error* out_error);
+/* Convenience form of rmm_text_passages for lines that are already one
+ * piece each, with no alternate (alone) reading. */
 [[nodiscard]] RMM_API rmm_status rmm_text_passages_from_reading(
     const rmm_page_box* bands, size_t band_count,
     const rmm_recognized_line* lines, size_t line_count, rmm_passages** out,
     rmm_error* out_error);
+/* Releases a result from rmm_text_passages or rmm_text_passages_from_reading.
+ * Accepts nullptr. */
 RMM_API void rmm_passages_free(rmm_passages* result);
 
 /* Gather adjoining passages, repeatedly merging every reached block.
@@ -44,6 +48,7 @@ RMM_API void rmm_passages_free(rmm_passages* result);
 [[nodiscard]] RMM_API rmm_status
 rmm_text_blocks(const rmm_marked_passage* passages, size_t count,
                 rmm_blocks** out, rmm_error* out_error);
+/* Releases a result from rmm_text_blocks. Accepts nullptr. */
 RMM_API void rmm_blocks_free(rmm_blocks* result);
 
 /* Zip strips with numbered (the shorter count wins). The first strip
@@ -54,6 +59,7 @@ RMM_API void rmm_blocks_free(rmm_blocks* result);
     const rmm_line* lines, size_t line_count, const rmm_mark_strip* strips,
     size_t strip_count, const size_t* numbered, size_t number_count,
     rmm_readings** out, rmm_error* out_error);
+/* Releases a result from rmm_text_brought. Accepts nullptr. */
 RMM_API void rmm_readings_free(rmm_readings* result);
 
 #ifdef __cplusplus

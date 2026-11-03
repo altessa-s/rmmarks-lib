@@ -104,11 +104,16 @@ typedef struct rmm_error {
   char message[160];
 } rmm_error;
 
+/* A fixed, human-readable string for status; never null. */
 RMM_API const char* rmm_status_string(rmm_status status);
 /* Fractional coordinates, origin top-left; never clamped to [0, 1]. */
 RMM_API rmm_page_box rmm_box_inside(rmm_page_box box, rmm_page_box frame);
+/* Inverse of rmm_box_inside: expands fractional coordinates back into
+ * frame's own coordinate space. */
 RMM_API rmm_page_box rmm_box_within(rmm_page_box box, rmm_page_box frame);
+/* True if page is null or has neither mark bands nor highlights. */
 RMM_API bool rmm_page_is_empty(const rmm_marked_page* page);
+/* Wraps a recognized line as placed text, keeping its text and box. */
 RMM_API rmm_placed_text rmm_place_line(rmm_recognized_line line);
 
 #ifdef __cplusplus

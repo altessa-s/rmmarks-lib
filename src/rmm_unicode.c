@@ -47,6 +47,8 @@ bool rmm_utf8_valid(rmm_str s) {
   }
   return true;
 }
+/* Value of the range in table (sorted, n entries) that contains cp, or 0
+ * if cp falls in no range. */
 static uint8_t property(uint32_t cp, const rmm_unicode_range* table, size_t n) {
   size_t lo = 0, hi = n;
   while (lo < hi) {
@@ -60,6 +62,8 @@ static uint8_t property(uint32_t cp, const rmm_unicode_range* table, size_t n) {
   }
   return 0;
 }
+/* True if cp is a Unicode space, line or paragraph separator treated as
+ * whitespace for trimming. */
 static bool whitespace(uint32_t cp) {
   return (cp >= 9 && cp <= 13) || cp == 0x20 || cp == 0x85 || cp == 0xA0 ||
          cp == 0x1680 || (cp >= 0x2000 && cp <= 0x200A) || cp == 0x2028 ||
@@ -97,11 +101,14 @@ typedef struct {
   uint8_t ccc;
   size_t order;
 } scalar;
+/* qsort comparator for canonical ordering: by combining class, with ties
+ * broken by original order to keep the sort stable. */
 static int by_combining(const void* a, const void* b) {
   const scalar *x = a, *y = b;
   if (x->ccc != y->ccc) return (x->ccc > y->ccc) - (x->ccc < y->ccc);
   return (x->order > y->order) - (x->order < y->order);
 }
+/* The canonical decomposition entry for cp, or nullptr if cp has none. */
 static const rmm_decomposition* decomposition(uint32_t cp) {
   size_t lo = 0, hi = rmm_decompositions_count;
   while (lo < hi) {
@@ -115,6 +122,9 @@ static const rmm_decomposition* decomposition(uint32_t cp) {
   }
   return nullptr;
 }
+/* Expands s into its canonical (NFD) decomposition, in canonical order,
+ * computing Hangul syllable decompositions rather than looking them up.
+ * Writes the scalar array to *out and its length to *count. */
 static rmm_status nfd(rmm_arena* arena, rmm_str s, scalar** out,
                       size_t* count) {
   if (s.length > SIZE_MAX / 4) return RMM_ERR_OUT_OF_MEMORY;

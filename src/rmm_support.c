@@ -39,6 +39,7 @@ void rmm_test_fail_after(size_t count) {
 bool rmm_test_did_fail(void) { return rmm_test_arena_failed; }
 #endif
 
+/* True once per forced failure armed by rmm_test_fail_after, for tests. */
 static bool rmm_should_fail(void) {
 #ifdef RMMARKS_TESTING
   if (rmm_test_arena_remaining != SIZE_MAX) {

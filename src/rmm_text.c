@@ -26,11 +26,14 @@ typedef struct {
   size_t key, index;
 } key_index;
 
+/* Mixes the bits of x into a well-spread 64-bit value, for hashing. */
 static uint64_t hash_number(uint64_t x) {
   x = (x ^ (x >> 30)) * UINT64_C(0xbf58476d1ce4e5b9);
   x = (x ^ (x >> 27)) * UINT64_C(0x94d049bb133111eb);
   return x ^ (x >> 31);
 }
+/* Smallest power of two at least twice count, for an open-addressed hash
+ * table. Returns 0 if that would overflow size_t. */
 static size_t table_capacity(size_t count) {
   if (count > SIZE_MAX / 2) return 0;
   size_t capacity = 8;
@@ -40,10 +43,13 @@ static size_t table_capacity(size_t count) {
   }
   return capacity;
 }
+/* qsort comparator ordering key_index entries by key. */
 static int key_order(const void* a, const void* b) {
   const key_index *x = a, *y = b;
   return (x->key > y->key) - (x->key < y->key);
 }
+/* Binary search for key among keys, sorted by key_order. Returns the
+ * matching index, or SIZE_MAX if key is not present. */
 static size_t find_key(const key_index* keys, size_t count, size_t key) {
   size_t lo = 0, hi = count;
   while (lo < hi) {
@@ -57,25 +63,34 @@ static size_t find_key(const key_index* keys, size_t count, size_t key) {
   }
   return SIZE_MAX;
 }
+/* Bounding box of every piece in line, which must have at least one. */
 static rmm_page_box span(rmm_line line) {
   rmm_page_box box = line.pieces[0].box;
   for (size_t i = 1; i < line.count; i += 1)
     box = rmm_box_union(box, line.pieces[i].box);
   return box;
 }
+/* Length of the overlap between intervals [a, b] and [c, d], or zero if
+ * they do not overlap. */
 static double overlap(double a, double b, double c, double d) {
   return fmax(0, fmin(b, d) - fmax(a, c));
 }
+/* True if band's vertical extent, with a small slack, reaches line's
+ * vertical middle. */
 static bool covers(rmm_page_box band, rmm_page_box line) {
   double middle = (line.y0 + line.y1) / 2;
   double slack = (line.y1 - line.y0) * RMM_PAST_THE_MIDDLE;
   return band.y0 - slack <= middle && middle <= band.y1 + slack;
 }
+/* True if b horizontally overlaps at least RMM_LEAST_WIDTH of p's width,
+ * or, when p has no positive width, if p falls entirely within b. */
 static bool half_covered(rmm_page_box b, rmm_page_box p) {
   double width = p.x1 - p.x0;
   if (!(width > 0)) return b.x0 <= p.x0 && p.x1 <= b.x1;
   return overlap(b.x0, b.x1, p.x0, p.x1) / width >= RMM_LEAST_WIDTH;
 }
+/* True if b and p horizontally share at least RMM_LEAST_TOUCH of the
+ * narrower box's width, or any overlap at all when one has no width. */
 static bool touched(rmm_page_box b, rmm_page_box p) {
   double width = fmin(p.x1 - p.x0, b.x1 - b.x0);
   double shared = overlap(b.x0, b.x1, p.x0, p.x1);
@@ -139,6 +154,7 @@ static rmm_status select_text(rmm_arena* arena, rmm_page_box band,
   *out = (selection){selected, used, trimmed, place, hash};
   return RMM_OK;
 }
+/* True if a and b selected the exact same set of (line, piece) pieces. */
 static bool same_selection(selection a, selection b) {
   if (a.hash != b.hash || a.count != b.count) return false;
   for (size_t i = 0; i < a.count; i += 1)
@@ -147,12 +163,15 @@ static bool same_selection(selection a, selection b) {
       return false;
   return true;
 }
+/* Copies s into a new arena-owned string at *out. Returns false, leaving
+ * *out unchanged, on allocation failure. */
 static bool copy_string(rmm_arena* arena, rmm_str s, rmm_str* out) {
   char* bytes = rmm_arena_strndup(arena, s.bytes, s.length);
   if (!bytes) return false;
   *out = (rmm_str){bytes, s.length};
   return true;
 }
+/* qsort comparator ordering passages by (place.y0, place.x0, band). */
 static int passage_order(const void* a, const void* b) {
   const rmm_marked_passage *x = a, *y = b;
   if (x->place.y0 != y->place.y0)
@@ -334,12 +353,15 @@ typedef struct {
   rmm_page_box box;
   size_t position;
 } ordered_box;
+/* qsort comparator ordering boxes by y0, with ties broken by original
+ * position to keep the sort stable. */
 static int vertical_order(const void* a, const void* b) {
   const ordered_box *x = a, *y = b;
   if (x->box.y0 != y->box.y0)
     return (x->box.y0 > y->box.y0) - (x->box.y0 < y->box.y0);
   return (x->position > y->position) - (x->position < y->position);
 }
+/* qsort comparator ordering boxes by (y0, x0). */
 static int box_order(const void* a, const void* b) {
   const rmm_page_box *x = a, *y = b;
   if (x->y0 != y->y0) return (x->y0 > y->y0) - (x->y0 < y->y0);
