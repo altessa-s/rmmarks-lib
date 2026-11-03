@@ -33,6 +33,7 @@ endif()
 
 option(RMMARKS_BUILD_TESTS "Build the test suite" ${RMMARKS_TOP_LEVEL})
 option(RMMARKS_WERROR "Turn compiler warnings into errors" OFF)
+option(RMMARKS_LTO "Link-time optimization for optimized shared builds" ON)
 option(RMMARKS_BUILD_FUZZERS "Build the libFuzzer targets (clang only)" OFF)
 if(RMMARKS_BUILD_FUZZERS AND NOT RMMARKS_BUILD_TESTS)
     message(FATAL_ERROR "RMMARKS_BUILD_FUZZERS requires RMMARKS_BUILD_TESTS")
@@ -76,6 +77,21 @@ target_compile_features(rmmarks PUBLIC c_std_23)
 if(BUILD_SHARED_LIBS)
     target_compile_definitions(rmmarks PRIVATE RMMARKS_BUILDING_SHARED
                                       INTERFACE RMMARKS_USING_SHARED)
+endif()
+
+# Link-time optimization for the shared library only: a static archive built
+# with it holds compiler bitcode that another compiler cannot link.
+if(BUILD_SHARED_LIBS AND RMMARKS_LTO)
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT RMMARKS_IPO OUTPUT RMMARKS_IPO_ERROR LANGUAGES C)
+    if(RMMARKS_IPO)
+        set_target_properties(rmmarks PROPERTIES
+            INTERPROCEDURAL_OPTIMIZATION_RELEASE ON
+            INTERPROCEDURAL_OPTIMIZATION_RELWITHDEBINFO ON
+            INTERPROCEDURAL_OPTIMIZATION_MINSIZEREL ON)
+    else()
+        message(STATUS "rmmarks: link-time optimization unavailable: ${RMMARKS_IPO_ERROR}")
+    endif()
 endif()
 
 # The warning set, and it is one set: the library is built with clang or

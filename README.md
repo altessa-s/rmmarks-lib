@@ -32,6 +32,7 @@ cmake --install build --prefix /your/prefix
 | `BUILD_SHARED_LIBS` | `OFF` | Build a shared library instead of a static library |
 | `RMMARKS_BUILD_TESTS` | on for a top-level build | Build tests and the `check` target |
 | `RMMARKS_WERROR` | `OFF` | Treat library compiler warnings as errors |
+| `RMMARKS_LTO` | `ON` | Link-time optimization for optimized shared builds |
 | `RMMARKS_BUILD_FUZZERS` | `OFF` | Build `fuzz_marks`; requires tests and clang's libFuzzer runtime |
 
 Installation includes headers, the library, license notices, a relocatable
