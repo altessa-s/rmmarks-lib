@@ -10,7 +10,8 @@
 #define RMMARKS_VERSION_PATCH 1
 #define RMMARKS_STRINGIFY_(x) #x
 #define RMMARKS_STRINGIFY(x) RMMARKS_STRINGIFY_(x)
-#define RMMARKS_VERSION_STRING                                                                     \
-    RMMARKS_STRINGIFY(RMMARKS_VERSION_MAJOR)                                                       \
-    "." RMMARKS_STRINGIFY(RMMARKS_VERSION_MINOR) "." RMMARKS_STRINGIFY(RMMARKS_VERSION_PATCH)
+#define RMMARKS_VERSION_STRING                                        \
+  RMMARKS_STRINGIFY(RMMARKS_VERSION_MAJOR)                            \
+  "." RMMARKS_STRINGIFY(RMMARKS_VERSION_MINOR) "." RMMARKS_STRINGIFY( \
+      RMMARKS_VERSION_PATCH)
 #endif
