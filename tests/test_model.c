@@ -32,7 +32,7 @@ int main(void) {
   rmm_placed_text placed = rmm_place_line(recognized);
   TEXT(placed.text, "Здесь отмечено одно");
   CHECK(box_equal(placed.box, page));
-  CHECK(strcmp(RMMARKS_VERSION_STRING, "1.0.1") == 0);
+  CHECK(strcmp(RMMARKS_VERSION_STRING, "1.1.0") == 0);
   for (int i = 0; i <= 3; i += 1)
     CHECK(strlen(rmm_status_string((rmm_status)i)) > 0);
   CHECK(strcmp(rmm_status_string((rmm_status)999), "unknown status") == 0);

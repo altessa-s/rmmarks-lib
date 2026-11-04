@@ -153,9 +153,10 @@ export the injection hooks.
 
 CI covers static/shared builds on Linux and macOS, clang builds on Windows,
 sanitizers, exact shared-library exports, installation, CMake/pkg-config
-consumers, and libFuzzer. CodeQL and nightly fuzz workflows follow the sibling
-package. The version is declared once in `include/rmmarks/rmmarks.h`; the release
-workflow requires the pushed tag to match it.
+consumers, libFuzzer and a clang-format check. CodeQL and nightly fuzz
+workflows follow the sibling package. The version is declared once in
+`include/rmmarks/rmmarks.h`; the release workflow requires the pushed tag to
+match it.
 
 On macOS, an optional cross-check builds the rmmarks-swift sources and
 compares the two implementations on all three operations:
