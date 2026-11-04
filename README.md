@@ -170,20 +170,22 @@ python3 tests/compare_swift.py --library build-shared/librmmarks.dylib \
 
 This check needs the separate Swift checkout; ordinary builds and tests do not.
 
-## See also
+## Bindings
 
 - **[rmmarks-swift](https://github.com/altessa-s/rmmarks-swift)** — the same
-  rules as a Swift package.
+  rules as a Swift package for Apple platforms.
+- **[rmmarks-go](https://github.com/altessa-s/rmmarks-go)** — Go bindings over
+  this library.
+
+## See also
+
 - **[rmlines-lib](https://github.com/altessa-s/rmlines-lib)** — the `.rm` v6
-  page format as a C23 library; its highlights are what this library places.
-- **[rmlines-swift](https://github.com/altessa-s/rmlines-swift)** and
-  **[rmlines-go](https://github.com/altessa-s/rmlines-go)** — the same page
-  format for Swift and Go.
-- **[rmdoc-swift](https://github.com/altessa-s/rmdoc-swift)** — the `.rmdoc`
+  page format: pages, strokes, typed text and highlights, read and written.
+- **[rmdoc-lib](https://github.com/altessa-s/rmdoc-lib)** — the `.rmdoc`
   container a document and its pages travel in.
-- **[Slate Drive](https://slatedrive.app)**
-  ([repository](https://github.com/altessa-s/slatedrive)) — the app these
-  packages are part of.
+- **[rmrender-lib](https://github.com/altessa-s/rmrender-lib)** — pages and
+  documents drawn to bitmaps and PDF, with pen textures, templates and typed
+  text.
 
 ## Acknowledgements
 
