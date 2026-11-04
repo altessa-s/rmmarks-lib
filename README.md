@@ -32,6 +32,7 @@ cmake --install build --prefix /your/prefix
 | `BUILD_SHARED_LIBS` | `OFF` | Build a shared library instead of a static library |
 | `RMMARKS_BUILD_TESTS` | on for a top-level build | Build tests and the `check` target |
 | `RMMARKS_WERROR` | `OFF` | Treat library compiler warnings as errors |
+| `RMMARKS_LTO` | `ON` | Link-time optimization for optimized shared builds |
 | `RMMARKS_BUILD_FUZZERS` | `OFF` | Build `fuzz_marks`; requires tests and clang's libFuzzer runtime |
 
 Installation includes headers, the library, license notices, a relocatable
@@ -152,9 +153,10 @@ export the injection hooks.
 
 CI covers static/shared builds on Linux and macOS, clang builds on Windows,
 sanitizers, exact shared-library exports, installation, CMake/pkg-config
-consumers, and libFuzzer. CodeQL and nightly fuzz workflows follow the sibling
-package. The version is declared once in `include/rmmarks/rmmarks.h`; the release
-workflow requires the pushed tag to match it.
+consumers, libFuzzer and a clang-format check. CodeQL and nightly fuzz
+workflows follow the sibling package. The version is declared once in
+`include/rmmarks/rmmarks.h`; the release workflow requires the pushed tag to
+match it.
 
 On macOS, an optional cross-check builds the rmmarks-swift sources and
 compares the two implementations on all three operations:
@@ -168,20 +170,22 @@ python3 tests/compare_swift.py --library build-shared/librmmarks.dylib \
 
 This check needs the separate Swift checkout; ordinary builds and tests do not.
 
-## See also
+## Bindings
 
 - **[rmmarks-swift](https://github.com/altessa-s/rmmarks-swift)** — the same
-  rules as a Swift package.
+  rules as a Swift package for Apple platforms.
+- **[rmmarks-go](https://github.com/altessa-s/rmmarks-go)** — Go bindings over
+  this library.
+
+## See also
+
 - **[rmlines-lib](https://github.com/altessa-s/rmlines-lib)** — the `.rm` v6
-  page format as a C23 library; its highlights are what this library places.
-- **[rmlines-swift](https://github.com/altessa-s/rmlines-swift)** and
-  **[rmlines-go](https://github.com/altessa-s/rmlines-go)** — the same page
-  format for Swift and Go.
-- **[rmdoc-swift](https://github.com/altessa-s/rmdoc-swift)** — the `.rmdoc`
+  page format: pages, strokes, typed text and highlights, read and written.
+- **[rmdoc-lib](https://github.com/altessa-s/rmdoc-lib)** — the `.rmdoc`
   container a document and its pages travel in.
-- **[Slate Drive](https://slatedrive.app)**
-  ([repository](https://github.com/altessa-s/slatedrive)) — the app these
-  packages are part of.
+- **[rmrender-lib](https://github.com/altessa-s/rmrender-lib)** — pages and
+  documents drawn to bitmaps and PDF, with pen textures, templates and typed
+  text.
 
 ## Acknowledgements
 
